@@ -71,6 +71,15 @@ jobs:
         uses: actions/checkout@v7
         with:
           persist-credentials: false
+      - name: Generate a throwaway TLS certificate
+        # compose.override.yaml points Caddy at frankenphp/certs, which is gitignored because
+        # the local pair comes from mkcert. Nothing here has to trust the certificate -- it
+        # only has to exist, or Caddy refuses its config and the container restarts forever.
+        run: |
+          mkdir -p frankenphp/certs
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
+            -keyout frankenphp/certs/tls.key -out frankenphp/certs/tls.pem \
+            -subj "/CN=localhost" -addext "subjectAltName=DNS:localhost"
       - name: Match the container user to the runner
         # compose.override.yaml bind-mounts the checkout and runs as USER_ID:GROUP_ID.
         # Left at its default the container cannot write var/ or public/build.

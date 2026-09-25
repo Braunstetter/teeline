@@ -37,15 +37,26 @@ running against a local or a remote model.
 
 ## Getting started
 
+The development stack serves HTTPS with a certificate your own machine trusts, and
+`frankenphp/certs/` is deliberately not in the repository — so that pair comes first. Caddy refuses
+to start without it, and the Vite dev server reads the same two files.
+
+```console
+mkdir -p frankenphp/certs
+mkcert -cert-file frankenphp/certs/tls.pem -key-file frankenphp/certs/tls.key localhost
+```
+
+One install of [mkcert](https://github.com/FiloSottile/mkcert); [docs/tls.md](docs/tls.md) has the
+long version. Then:
+
 ```console
 docker compose build --pull
 make assets
 docker compose up --wait
 ```
 
-Then open `https://localhost` and accept the self-signed certificate — or
-[trust it properly](docs/tls.md), which the Vite dev server needs anyway. Migrations run on boot.
-`make assets` builds the Vite bundle, which is not committed.
+Open `https://localhost`. Migrations run on boot, and `make assets` builds the Vite bundle, which is
+not committed either.
 
 ```console
 make            # every target, with descriptions
