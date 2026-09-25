@@ -98,6 +98,11 @@ jobs:
         run: |
           docker compose run --rm node npm ci
           docker compose run --rm node npm run build
+      - name: Install the dependencies
+        # The entrypoint would do this on first boot, but then a composer failure surfaces as
+        # "container is unhealthy" with the reason inside a log nobody printed. Here it fails
+        # as itself, and `up` afterwards has nothing left to install.
+        run: docker compose run --rm php composer install --prefer-dist --no-progress --no-interaction
       - name: Start services
         run: docker compose up --wait --no-build
       - name: Check HTTP reachability
@@ -114,6 +119,14 @@ jobs:
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate
       - name: PHPUnit
         run: docker compose exec -T php bin/phpunit
+      - name: Say what died
+        # Last, not next to the step it diagnoses: an `if: failure()` step runs wherever it
+        # sits, so from here it catches every earlier one. "container is unhealthy" is a
+        # symptom; the reason is in the container's own log.
+        if: failure()
+        run: |
+          docker compose ps --all
+          docker compose logs --no-color
 
   prod-image:
     name: Production image
