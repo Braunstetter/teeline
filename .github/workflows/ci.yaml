@@ -53,7 +53,7 @@ jobs:
       - name: Install PHP extensions
         run: install-php-extensions @composer intl zip apcu pdo_pgsql
       - name: Cache the dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: vendor
           key: composer-${{ hashFiles('composer.lock') }}
