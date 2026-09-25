@@ -125,7 +125,12 @@ jobs:
       - name: Run migrations
         run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
       - name: Doctrine schema validator
-        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+        # In dev, not test: the test environment swaps the messenger transport for in-memory
+        # and the session storage for mock_file, so neither `messenger_messages` nor
+        # `sessions` belongs to the schema it expects -- while the migrations rightly create
+        # both. Validating there reports two tables too many and calls it drift. The dev
+        # database, migrated by the entrypoint, is where a real entity/migration gap shows.
+        run: docker compose exec -T php bin/console doctrine:schema:validate
       - name: PHPUnit
         run: docker compose exec -T php bin/phpunit
       - name: Say what died
