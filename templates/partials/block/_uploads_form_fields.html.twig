@@ -1,0 +1,103 @@
+{% block image_preview %}
+    {% import 'partials/macro/uploads.html.twig' as uploads %}
+
+    <div class="image-preview cursor-pointer w-56"
+         data-action="click->image-upload#openFileSelection:prevent">
+
+        {% if form.vars.value.fullPath|default(null) is not null %}
+            {{ uploads.show({upload: form.vars.value, image_filter: 'square_128'}) }}
+        {% else %}
+            {% set placeholderPath = form.vars.placeholder_image_path %}
+            {% if placeholderPath is not null %}
+                <img src="{{ asset(placeholderPath) }}" alt=""/>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block media_image_single_widget %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% import 'classes.html.twig' as classes %}
+
+    <div {{ std.attr(attr) }}>
+
+        {{ block('image_preview') }}
+
+        <div class="form-errors">
+            {{ form_errors(form.file) }}
+        </div>
+
+        <div class="flex justify-start gap-x-3 mt-2">
+            <div class="hidden">
+                {{ form_widget(form.file, {
+                    'attr': {
+                        'data-action': 'image-upload#openFileSelection:prevent'
+                    }
+                }) }}
+            </div>
+
+            {% set dataActions = [
+                'click->turbo-confirm#confirmAction',
+                'upload:remove->single-upload#clear',
+            ] %}
+
+            {% embed 'partials/embed/button.html.twig' with {
+                'icon': 'heroicons:trash',
+                'disabled': form.vars.value.fullPath|default(null) is null,
+                'color': 'delete',
+                'size': 'sm',
+                'ariaLabel': 'profile.form.settings.picture.delete_label'|trans({}, 'user'),
+                'attr': {
+                    'data-action': (dataActions|join(' ') ~ ' image:uploaded@document->single-upload#onImageUploaded'),
+                    'data-single-upload-target': 'trashButton',
+                    'data-single-upload-disabled-class': 'opacity-50 cursor-not-allowed',
+                    'data-turbo-confirm-event-name-param': 'upload:remove',
+                    'data-confirm-title': 'profile.form.settings.picture.confirm.title'|trans({}, 'user'),
+                    'data-confirm-body': 'profile.form.settings.picture.confirm.body'|trans({}, 'user'),
+                    'data-confirm-btn-text': 'profile.form.settings.picture.confirm.confirm'|trans({}, 'user'),
+                    'data-cancel-btn-text': 'profile.form.settings.picture.confirm.cancel'|trans({}, 'user'),
+                }
+            } only %}
+            {% endembed %}
+
+            {% embed 'partials/embed/button.html.twig' with {
+                'icon': 'heroicons:arrow-path',
+                'size': 'sm',
+                'color': 'secondary',
+                'ariaLabel': 'profile.form.settings.picture.change_label'|trans({}, 'user'),
+                'attr': {
+                    'data-action': 'image-upload#openFileSelection:prevent'
+                }
+            } only %}
+            {% endembed %}
+
+        </div>
+
+        {{ form_rest(form) }}
+    </div>
+{% endblock %}
+
+{% block media_image_single_row %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% if prototype is defined and not prototype.rendered %}
+        {% set row_attr = row_attr|merge({
+            'data-single-upload-prototype-value': form_widget(form.vars.prototype)
+        }) %}
+    {% endif %}
+
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~ '_help'}} -%}
+    {%- endif -%}
+
+    <div{{ std.attr(row_attr) }}>
+        {{- form_label(form, null, {label_attr: {for: form.file.vars.id}}) -}}
+        {{- form_errors(form) -}}
+
+        <div data-single-upload-target="container">
+            {{- form_widget(form, widget_attr) -}}
+        </div>
+
+        {{- form_help(form) -}}
+    </div>
+{% endblock %}

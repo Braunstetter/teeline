@@ -1,0 +1,6 @@
+{% extends 'app/email/base.html.twig' %}
+{% trans_default_domain 'email' %}
+
+{% block body %}
+    {{ 'email_change.notification.body'|trans }}
+{% endblock %}

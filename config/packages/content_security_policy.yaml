@@ -1,0 +1,17 @@
+parameters:
+    csp_directives: []
+
+when@prod:
+    parameters:
+        csp_directives:
+            default-src: "'self'"
+            script-src: "'self' https://challenges.cloudflare.com"
+            style-src: "'self' 'unsafe-inline'"
+            img-src: "'self' data:"
+            font-src: "'self' data:"
+            frame-src: "https://challenges.cloudflare.com"
+            connect-src: "'self' https://challenges.cloudflare.com"
+            form-action: "'self'"
+            base-uri: "'self'"
+            object-src: "'none'"
+            upgrade-insecure-requests: true

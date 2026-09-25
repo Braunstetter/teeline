@@ -1,0 +1,29 @@
+{% set _route = app.request.attributes.get('_route') %}
+{% set _route_params = app.request.attributes.get('_route_params') %}
+{% set _canonical_url = url(_route, _route_params) %}
+
+<link rel="canonical" href="{{ _canonical_url }}">
+
+{% for locale in app.enabled_locales %}
+    <link rel="alternate" hreflang="{{ locale }}" href="{{ url(_route, _route_params|merge({ _locale: locale })) }}">
+{% endfor %}
+<link rel="alternate" hreflang="x-default" href="{{ url(_route, _route_params|merge({ _locale: 'en' })) }}">
+
+{% if page_description is not empty %}
+    <meta name="description" content="{{ page_description }}">
+{% endif %}
+
+<meta property="og:site_name" content="{{ 'app_name'|trans({}, 'app') }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ page_description }}">
+<meta property="og:url" content="{{ _canonical_url }}">
+<meta property="og:locale" content="{{ app.request.locale }}">
+
+{% for locale in app.enabled_locales %}
+    {% if locale != app.request.locale %}
+        <meta property="og:locale:alternate" content="{{ locale }}">
+    {% endif %}
+{% endfor %}
+
+{% include 'website/index/section/_json_ld.html.twig' only %}

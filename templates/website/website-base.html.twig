@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{%- block body -%}
+    <div class="min-h-full">
+
+        <a href="#main-content"
+           class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-100 focus:rounded-xl focus:bg-surface-raised focus:px-4 focus:py-2 focus:text-brand focus:shadow-lg focus:outline-2 focus:outline-brand">
+            {{- 'skip_to_content'|trans({}, 'app') -}}
+        </a>
+
+        {% include 'website/partials/website-navbar.html.twig' only %}
+
+        <main id="main-content" class="flex flex-col min-h-dvh mt-24 lg:mt-32">
+            {% import 'website/classes.html.twig' as website %}
+            <div class="@container {{ website.container() }} pt-12 sm:pt-16 lg:pt-24 pb-16">
+                {%- block content ~%} {%~ endblock -%}
+            </div>
+
+            {% include 'app/flashMessages/notification/_notifications.html.twig' %}
+        </main>
+
+        {% include 'website/partials/website-footer.html.twig' only %}
+    </div>
+{%- endblock -%}
+
+{% block meta %}
+    {% include 'website/partials/_meta.html.twig' with {
+        page_title: block('title') ~ ' | ' ~ 'app_name'|trans({}, 'app'),
+        page_description: block('meta_description')|default(''),
+    } only %}
+{% endblock %}
+
+{% block robots %}
+    {% set directives = (is_public ?? true)
+        ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+        : 'noindex, nofollow' %}
+    <meta name="robots" content="{{ directives }}">
+{% endblock %}
+
+{% block stylesheets %}{{ reprise_entry_link_tags('app') }}{% endblock %}
+{% block javascripts %}{{ reprise_entry_script_tags('app') }}{% endblock %}

@@ -1,0 +1,43 @@
+{% import 'partials/macro/macro.html.twig' as std %}
+
+{% set underline = underline ?? true %}
+{% set href = href ?? '#' %}
+{% set color = color ?? 'primary' %}
+{% set attr = attr ?? {} %}
+{% set ariaLabel = ariaLabel ?? null %}
+{% set title = title ?? null %}
+
+{% set stdClass = 'text-sm/6 font-medium' %}
+
+{% if underline is true %}
+    {% set stdClass = stdClass ~ ' underline decoration-2 underline-offset-2' %}
+{% endif %}
+
+{% set colorClass %}
+    {%- if color is same as('primary') -%}
+        text-ink
+    {%- elseif color is same as('secondary') -%}
+        text-brand
+    {%- endif -%}
+{% endset %}
+
+{% set attr = attr|merge({
+    href: href,
+    class: stdClass ~ ' ' ~ colorClass,
+}) %}
+
+{% if ariaLabel is not null %}
+    {% set attr = attr|merge({
+        'aria-label': ariaLabel,
+    }) %}
+{% endif %}
+
+{% if title is not null %}
+    {% set attr = attr|merge({
+        title: title,
+    }) %}
+{% endif %}
+
+<a {{ std.attr(attr) }}>
+    {%- block content -%} {%- endblock -%}
+</a>

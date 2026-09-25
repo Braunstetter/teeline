@@ -1,0 +1,6 @@
+{% extends 'app/email/base.html.twig' %}
+{% trans_default_domain 'email' %}
+
+{% block body %}
+    {{ 'verification.please_verify'|trans({'%link%': link}) }}
+{% endblock %}

@@ -1,0 +1,19 @@
+---
+# Gateway override: additive to compose.yaml, used only on braunstetter-dev.
+services:
+  php:
+    ports: !override []    # 80/443 belong to the gateway
+    environment:
+      SERVER_NAME: ":80"   # the gateway terminates TLS
+    networks:
+      # Listing a network replaces the default assignment rather than adding to it, so the
+      # default has to be named again — without it php cannot resolve `database`.
+      default: {}
+      dev-sites:
+        aliases:
+          # Every alias is a live subdomain of braunstetter.dev on this one instance.
+          - teeline
+
+networks:
+  dev-sites:
+    external: true

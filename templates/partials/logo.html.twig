@@ -1,0 +1,13 @@
+{% trans_default_domain('app') %}
+{% import 'partials/macro/macro.html.twig' as std %}
+
+{% set attr = attr|default({}) %}
+{% set attr = attr|attachClass('flex shrink-0 items-center text-brand') %}
+
+{% set path = path ?? path('app_dashboard') %}
+
+<div {{ std.attr(attr) }}>
+    <a href="{{ path }}" class="flex h-14 items-center px-2 text-lg font-bold tracking-tight">
+        {{- 'app_name'|trans -}}
+    </a>
+</div>

@@ -1,0 +1,28 @@
+{% import 'website/classes.html.twig' as classes %}
+
+<header data-controller="navbar-scroll"
+        class="group fixed inset-x-0 top-0 z-50 bg-surface motion-safe:transition-[box-shadow] motion-safe:duration-300 data-scrolled:shadow-md">
+    <div class="{{ classes.container() }} flex h-24 items-center lg:h-32 lg:px-24 motion-safe:transition-[height] motion-safe:duration-300 group-data-scrolled:h-16 group-data-scrolled:lg:h-20">
+
+        {% include 'partials/logo.html.twig' with { path: path('app_root') } only %}
+
+        <nav class="flex flex-1 items-center justify-end gap-3 sm:gap-6" aria-label="{{ 'menu.main.sr-only'|trans({}, 'app') }}">
+            {% embed 'partials/embed/link.html.twig' with {
+                href: path('app_login'),
+                underline: false,
+            } only %}
+                {% block content %}{{ 'nav.log_in'|trans({}, 'website') }}{% endblock %}
+            {% endembed %}
+
+            {% embed 'partials/embed/button.html.twig' with {
+                asLink: true,
+                color: 'primary',
+                size: 'sm',
+                attr: { href: path('app_register'), class: 'hidden sm:flex' },
+            } only %}
+                {% block content %}{{ 'nav.sign_up'|trans({}, 'website') }}{% endblock %}
+            {% endembed %}
+        </nav>
+
+    </div>
+</header>

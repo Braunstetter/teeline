@@ -1,0 +1,39 @@
+{% embed 'partials/embed/dialog.html.twig' with {
+    attr: {
+        'data-turbo-confirm-target': 'dialog',
+        'aria-labelledby': 'dialog-title',
+    },
+    isDialogForm: true
+} only %}
+
+    {% block header_icon %}
+        {{ ux_icon('heroicons:exclamation-triangle', {class: 'size-10 text-danger'}) }}
+    {% endblock %}
+
+    {% block content %}
+        {% import 'partials/macro/typography.html.twig' as typography %}
+
+        <div class="space-y-5">
+            {{ typography.h3({ attr: { id: 'dialog-title', 'data-turbo-confirm-target': 'title' } }) }}
+            {{ typography.p({ type: 'website', attr: { 'data-turbo-confirm-target': 'body' } }) }}
+        </div>
+    {% endblock %}
+
+    {% block footer %}
+        <div class="flex flex-row-reverse gap-x-5">
+            {% embed 'partials/embed/button.html.twig' with {
+                attr: { 'data-turbo-confirm-target': 'confirmButton', value: 'confirm' },
+                color: 'delete',
+            } only %}
+                {% block content %}{{ 'common.confirm'|trans([], 'app') }}{% endblock %}
+            {% endembed %}
+
+            {% embed 'partials/embed/button.html.twig' with {
+                attr: { autofocus: true, 'data-turbo-confirm-target': 'cancelButton', value: 'cancel' },
+                color: 'secondary',
+            } only %}
+                {% block content %}{{ 'common.cancel'|trans([], 'app') }}{% endblock %}
+            {% endembed %}
+        </div>
+    {% endblock %}
+{% endembed %}

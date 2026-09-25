@@ -1,0 +1,47 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'security' %}
+
+{% block title %}{{ 'login.register'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'registration.title'|trans, attr: {class: 'mb-4'} }) }}
+
+        <p class="text-sm/6 text-ink-muted">
+            {{ 'registration.already_registered'|trans }}
+            <a href="{{ path('app_login') }}" class="{{ classes.link() }}">{{ 'login.title'|trans }}</a>
+        </p>
+    </div>
+
+    <div class="mx-auto w-full max-w-md">
+        {% if registrationForm.vars.errors is not empty %}
+            <div id="registration-form_error" class="{{ classes.alert() }}">
+                <div class="form-error" role="alert">{{ 'registration.form.error'|trans }}</div>
+            </div>
+        {% endif %}
+
+        {{ form_start(registrationForm) }}
+            <div class="xs:grid xs:grid-cols-2 xs:gap-4 space-y-6 xs:space-y-0">
+                {{ form_row(registrationForm.firstname) }}
+                {{ form_row(registrationForm.lastname) }}
+            </div>
+
+            {{ form_row(registrationForm.gender) }}
+            {{ form_row(registrationForm.email) }}
+
+            <div class="xs:grid xs:grid-cols-2 xs:gap-4 space-y-6 xs:space-y-0">
+                {{ form_row(registrationForm.plainPassword.first) }}
+                {{ form_row(registrationForm.plainPassword.second) }}
+            </div>
+
+            {{ form_row(registrationForm.agreeTerms) }}
+            {{ form_row(registrationForm.security) }}
+            {{ form_row(registrationForm.submit) }}
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

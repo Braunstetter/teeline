@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" class="h-full antialiased">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} | {{ 'app_name'|trans({}, 'app') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+    {% block favicon %}
+        {# The skeleton's inline mark until there is a real one. #}
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    {% endblock %}
+
+    {# Declared, not only overridden: website-base reads it with block(), which
+       throws on a page that never declares one. #}
+    {% block meta_description %}{% endblock %}
+    {% block meta %}{% endblock %}
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+
+    {# The entry picks this up and loads the reloader from node_modules -- the skeleton
+       pulls both libraries from a CDN instead. #}
+    {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+    {% if frankenphp_hot_reload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
+    {% endif %}
+</head>
+
+<body class="h-full bg-surface">
+{%- block body -%}{%- endblock -%}
+</body>
+
+</html>

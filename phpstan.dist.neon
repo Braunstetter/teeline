@@ -1,0 +1,35 @@
+parameters:
+    level: 10
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+        - tests/
+        - utils/
+
+    # Recipe code; what satisfies the analysers here is gone with the next recipes:update.
+    excludePaths:
+        - config/reference.php
+        - config/preload.php
+        - public/index.php
+        - src/Kernel.php
+        - tests/bootstrap.php
+
+    treatPhpDocTypesAsCertain: false
+
+    # The extension's defaults, spelled out.
+    cognitive_complexity:
+        class: 40
+        function: 9
+
+    # Nothing is untyped yet; cheapest moment to demand it stays that way.
+    type_coverage:
+        return: 100
+        param: 100
+        property: 100
+        constant: 100
+
+    # Maker-style entities: nullable property, NOT NULL column.
+    doctrine:
+        allowNullablePropertyForRequiredField: true

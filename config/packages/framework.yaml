@@ -1,0 +1,34 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # The gateway terminates TLS and forwards plain HTTP, so without this Symfony builds
+    # http:// urls and drops the secure flag on the session cookie.
+    trusted_proxies: 'private_ranges'
+    # x-forwarded-host is left out on purpose: the docs warn it opens host header attacks,
+    # and the hostname here is fixed anyway.
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
+
+    session:
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        # Four hours of inactivity instead of PHP's 24 minutes.
+        gc_maxlifetime: 14400
+
+    rate_limiter:
+        email_change:
+            policy: fixed_window
+            limit: 3
+            interval: '15 minutes'
+        password_reset:
+            policy: fixed_window
+            limit: 3
+            interval: '15 minutes'
+
+    #esi: true
+    #fragments: true
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

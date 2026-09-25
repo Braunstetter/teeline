@@ -1,0 +1,23 @@
+greeting: 'Hey%name%!'
+cheers: 'Cheers!'
+salutation: 'Your %app_name%'
+
+verification:
+    subject: 'One click to go'
+    please_verify: 'great to have you on board. One click to go: [confirm email address](%link%)'
+
+reset_password:
+    subject: 'Set a new password'
+    please_reset: 'you asked to change your password. This way: [set a new password](%link%)'
+
+email_change:
+    confirmation:
+        subject: 'Confirm your new email address'
+        body: 'Click this [link](%link%) to confirm your new email address.'
+        link_will_expire: 'This link will expire in **24 hours**.'
+    notification:
+        subject: 'Email change requested'
+        body: |
+            Someone requested to change the email address of your account.
+
+            If this was not you, please secure your account immediately.

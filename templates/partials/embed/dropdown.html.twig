@@ -1,0 +1,51 @@
+{% import 'partials/macro/macro.html.twig' as std %}
+
+{% import 'partials/macro/transition.html.twig' as transition %}
+
+{% set name = name ?? '' %}
+{% set arrow = arrow ?? true %}
+{% set labelledby = labelledby ?? ('dropdown-' ~ name) %}
+
+{% set attr = attr ?? {} %}
+{% set attr = attr|merge({ class: attr.class|default('flex items-center text-left h-14') }) %}
+{% set attr = attr|attachClass('relative') %}
+
+{% set button_attr = button_attr ?? {} %}
+{% set button_attr = button_attr|merge({ class: button_attr.class|default('inline-flex items-center px-1') }) %}
+{% set button_attr = button_attr|attachClass('text-sm font-medium text-ink transition-colors duration-150 ease-in-out hover:text-brand') %}
+{# Positioning handled by floating-ui in dropdown_controller.js #}
+
+{% set button_attr = button_attr|attach({
+    id: 'dropdown-' ~ name,
+    'aria-expanded': 'false',
+    'aria-haspopup': 'true',
+    'data-dropdown-target': 'opener',
+}) %}
+
+{% set attr = attr|attach({
+    'data-controller': 'dropdown'
+}) %}
+
+<div {{ std.attr(attr) }}>
+    <button type="button" {{ std.attr(button_attr) }}>
+        {%- block buttonContent %} {% endblock -%}
+
+        {% if arrow is same as(true) %}
+            <svg class="-mr-1 h-6 w-6" viewBox="0 0 20 20" fill="currentColor"
+                 aria-hidden="true" data-dropdown-target="arrow">
+                <path fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd"></path>
+            </svg>
+        {% endif %}
+    </button>
+
+    <div
+        class="hidden text-sm text-ink absolute z-10 w-auto min-w-40 rounded-xl py-1 bg-surface-raised/95 shadow-xl ring-1 ring-black/10 focus:outline-none backdrop-blur-xl overflow-y-auto"
+        role="menu" aria-orientation="vertical" aria-labelledby="{{ labelledby }}" tabindex="-1"
+        data-dropdown-target="content"
+        {{ transition.fade_scale() }}
+    >
+        {%- block content %} {% endblock -%}
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% import 'partials/macro/macro.html.twig' as std %}
+
+{% set attr = attr|default({}) %}
+{% set attr = attr|merge({
+    class: 'not-prose fixed inset-x-4 hidden max-h-svh w-auto min-w-0 max-w-prose overflow-hidden rounded-xl bg-surface-raised text-left align-bottom shadow-xl pointer-events-none open:pointer-events-auto motion-safe:animate-slide-in-up',
+    'data-app-dialog': 'true'
+}) %}
+{% set isDialogForm = isDialogForm|default(false) %}
+
+{% set headerIconClasses = 'flex size-12 shrink-0 items-center justify-center rounded-full sm:mx-0 sm:size-10' %}
+
+<dialog {{ std.attr(attr) }}>
+
+    {% if isDialogForm %}
+    <form method="dialog" class="p-5 space-y-5 rounded-xl">
+        {% endif %}
+
+        <header class="mb-4 border-b border-line pb-4">
+            {% block header %}
+                {% set hasIcon = block('header_icon') is not empty %}
+
+                <div class="flex w-full {{ hasIcon ? 'justify-between' : 'justify-end' }}">
+                    {% if hasIcon %}
+                        <div class="{{ headerIconClasses }}">{%- block header_icon -%} {%- endblock -%}</div>
+                    {% endif %}
+
+                    {% block header_close_button %}
+                        <button value="close"
+                                class="rounded-full p-1 text-ink-muted transition-colors duration-200 ease-in-out hover:bg-surface-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                                aria-label="{{ 'dialog.close'|trans }}">
+                            {{- ux_icon('heroicons:x-mark', {class: 'size-5'}) -}}
+                        </button>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </header>
+
+        <article>{% block content %} {% endblock %}</article>
+        <footer class="mt-6">{% block footer %} {% endblock %}</footer>
+
+        {% if isDialogForm %}
+    </form>
+    {% endif %}
+</dialog>

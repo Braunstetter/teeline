@@ -1,0 +1,22 @@
+app_name: 'Teeline'
+
+menu:
+    main:
+        sr-only: 'Hauptnavigation'
+        mobile:
+            sr-only: 'Hauptnavigation (mobil)'
+            button:
+                sr-only: 'Öffne das Hauptmenü'
+
+gender:
+    male: 'Männlich'
+    female: 'Weiblich'
+    diverse: 'Divers'
+
+skip_to_content: 'Zum Inhalt springen'
+user_menu: 'Benutzermenü'
+close_notification: 'Benachrichtigung schließen'
+
+common:
+    confirm: 'Bestätigen'
+    cancel: 'Abbrechen'

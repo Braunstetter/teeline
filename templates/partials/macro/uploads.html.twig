@@ -1,0 +1,23 @@
+{% macro show(config) %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+
+    {% set upload = config.upload|default(null) %}
+    {% set image_filter = config.image_filter|default('wide_xl') %}
+    {% set placeholder = config.placeholder|default(null) %}
+    {% set alt = config.alt|default(upload ? upload.originalFilename : '') %}
+    {% set attr = config.attr|default({})|merge(config.image_attr|default({})) %}
+
+    {% if upload is not null %}
+        <img {{ std.attr(attr) }}
+            src="{{ upload.fullPath|imagine_filter(image_filter) }}"
+            alt="{{ alt }}"
+            loading="lazy"
+        />
+    {% elseif placeholder is not null %}
+        <img {{ std.attr(attr) }}
+            src="{{ placeholder }}"
+            alt="{{ alt }}"
+            loading="lazy"
+        />
+    {% endif %}
+{% endmacro %}

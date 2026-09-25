@@ -1,0 +1,8 @@
+notification:
+    success:
+        title: 'Fertig!'
+    error:
+        title: 'Fehler'
+
+dialog:
+    close: 'Dialog schließen'

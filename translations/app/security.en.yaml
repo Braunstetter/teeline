@@ -1,0 +1,63 @@
+registration:
+    title: 'Register'
+    form:
+        firstname: 'First name'
+        lastname: 'Last name'
+        gender:
+            label: 'Salutation'
+            placeholder: 'Please choose'
+        email: 'Email address'
+        password: 'Create Password'
+        password_repeat: 'Confirm password'
+        submit: 'Register'
+        agree_terms: 'I agree that my name and email address are stored to give me access to the demo.'
+        error: 'There was a problem with your registration. Please try again later.'
+        success:
+            headline: 'Registration successful'
+            text: 'We have sent you a confirmation email. Click the link in the email to verify your account.'
+            hint: "Didn't receive an email? Check your spam folder."
+            resent: 'Your confirmation link has expired, so we have sent you a new email. Please check your emails to verify your account.'
+            to_login: 'Go to sign in'
+    already_registered: 'Already registered?'
+    verify:
+        failed: 'This link does not work. Enter your address again and a new one is on its way.'
+    welcome:
+        title: 'Welcome to your admin panel'
+        message: 'You have successfully registered.'
+
+login:
+    title: 'Login'
+    form:
+        email: 'Email address'
+        password: 'Password'
+        remember_me: 'Stay signed in'
+        reset_password: 'Forgot your password?'
+        submit: 'Sign in'
+        bad_credentials: 'Invalid credentials.'
+        captcha_failed: 'The security check failed. Reload the page and try again.'
+    not_a_member: 'Not a member?'
+    register: 'Register now'
+    already_verified: 'This address is already confirmed. Just sign in.'
+
+reset_password:
+    title: 'Forgot your password?'
+    title_2: 'Reset it here.'
+    back_to_login: 'Back to sign in'
+    form:
+        email: 'Email address'
+        email_help: 'Insert your email address and we will send you a link to reset your password.'
+        submit: 'Send password reset email'
+        success:
+            headline: 'Password Reset Email Sent'
+            text: 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
+                This link will expire in %expiration%'
+            text_2: "If you don't receive an email please check your spam folder or"
+            text_3: 'try again.'
+    reset_form:
+        title: 'Reset your password'
+        submit: 'Reset password'
+        password: 'New password'
+        password_repeat: 'Repeat new password'
+
+turnstile:
+    disabled_info: 'Confirm that you are a human by clicking the box below this button.'

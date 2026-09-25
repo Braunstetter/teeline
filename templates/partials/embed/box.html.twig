@@ -1,0 +1,23 @@
+{% import 'classes.html.twig' as classes %}
+
+{% set variant = variant ?? 'success' %}
+{% set icon = icon ?? {
+    success: 'heroicons:check',
+    error: 'heroicons:exclamation-triangle',
+}[variant] %}
+
+{% set icon_class = classes.box_icon(variant)|trim ~ '' %}
+
+<div class="text-center">
+    <div class="{{ classes.box_icon_wrapper(variant)|trim }}">
+        {{- ux_icon(icon, {class: icon_class}) -}}
+    </div>
+
+    <p class="mt-6 text-base/7 text-ink-muted">
+        {%- block message -%}{%- endblock -%}
+    </p>
+
+    <p class="mt-8 border-t border-line pt-6 text-sm/6 text-ink-muted">
+        {%- block hint -%}{%- endblock -%}
+    </p>
+</div>

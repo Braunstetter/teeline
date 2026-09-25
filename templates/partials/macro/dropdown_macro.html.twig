@@ -1,0 +1,32 @@
+{% macro item(config) %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+
+    {% set url = config.url|default(null) %}
+    {% set text = config.text|default('') %}
+    {% set icon = config.icon|default(null) %}
+
+    {% set attr = config.attr|default({}) %}
+    {% set attr = attr|attach({
+        href: url,
+        role: 'menuitem',
+    }) %}
+    {% set attr = attr|attachClass('flex w-full items-center justify-center no-underline px-4 py-2 hover:bg-brand/5 transition-colors duration-150 ease-in') %}
+
+    {% set current = config.current ?? false %}
+
+    {% if current is same as (true) %}
+        {% set attr = attr|attachClass('text-ink bg-brand/5') %}
+    {% endif %}
+
+    {% if text is not same as('') %}
+        <a {{ std.attr(attr) }}>
+            <span class="dropdown-button flex gap-2 items-center py-1">
+                {% if icon is not null %}
+                    {{ ux_icon(icon, {class: 'size-6 shrink-0'}) }}
+                {% endif %}
+
+                <span class="whitespace-nowrap">{{- text -}}</span>
+            </span>
+        </a>
+    {% endif %}
+{% endmacro %}

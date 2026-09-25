@@ -1,0 +1,9 @@
+{% import 'partials/macro/uploads.html.twig' as uploads %}
+
+{{ uploads.show({
+    upload: app.user.picture,
+    image_filter: 'square_128',
+    placeholder: asset(app.user.avatarPlaceholder),
+    alt: 'user_menu.picture_alt'|trans({}, 'user'),
+    image_attr: {class: 'size-10 rounded-full'},
+}) }}

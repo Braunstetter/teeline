@@ -1,0 +1,25 @@
+# Ueberschreibt den Text des Turnstile-Bundles: es gibt hier kein Kaestchen zum Ankreuzen.
+invalid_turnstile: 'The security check failed. Please reload the page and try again.'
+
+email:
+    blank: 'Please enter your email address.'
+    invalid: 'That does not look like an email address.'
+
+name:
+    blank: 'Please enter your name.'
+    too_short: 'At least {{ limit }} characters, please.'
+
+password_blank: 'Please come up with a password.'
+password_too_short: 'The password needs at least {{ limit }} characters.'
+password_compromised: 'This password appears in known data breaches. Please choose another one.'
+password_mismatch: 'The two passwords are not the same.'
+
+gender:
+    blank: 'Please make a choice here.'
+
+registration:
+    terms_missing: 'Please tick the box, then we can get going.'
+
+upload:
+    maxSizeMessage: 'That file is too large. Please pick one of at most 50 MB.'
+    mimeTypesMessage: 'Only JPG and PNG images are allowed.'

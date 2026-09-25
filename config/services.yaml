@@ -1,0 +1,16 @@
+parameters:
+    upload_public_dir: '%env(UPLOAD_PUBLIC_DIR)%'
+    app_name: '%env(APP_NAME)%'
+    notification_email: '%env(NOTIFICATION_EMAIL)%'
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    App\:
+        resource: '../src/'
+    App\Service\FileHelper:
+        public: true
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'

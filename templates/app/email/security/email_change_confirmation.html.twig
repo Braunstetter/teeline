@@ -1,0 +1,8 @@
+{% extends 'app/email/base.html.twig' %}
+{% trans_default_domain 'email' %}
+
+{% block body %}
+    {{ 'email_change.confirmation.body'|trans({'%link%': link}) }}
+
+    {{ 'email_change.confirmation.link_will_expire'|trans }}
+{% endblock %}

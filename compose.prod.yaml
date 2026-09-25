@@ -1,0 +1,59 @@
+---
+# Production environment override
+
+# Compose does not share environment between services; this anchor does.
+x-common-env: &common-env
+  APP_SECRET: ${APP_SECRET}
+  MAILER_DSN: ${MAILER_DSN}
+  TURNSTILE_KEY: ${TURNSTILE_KEY}
+  TURNSTILE_SECRET: ${TURNSTILE_SECRET}
+  DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-16}&charset=${POSTGRES_CHARSET:-utf8}
+
+services:
+  # Loopback only: reachable through an ssh tunnel, invisible from outside.
+  database:
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  php:
+    image: ${IMAGES_PREFIX:-}app-php-prod
+    build:
+      context: .
+      target: frankenphp_prod
+    environment:
+      <<: *common-env
+      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
+    # Uploads live inside public/, which a deploy replaces wholesale. Without this
+    # volume every profile picture is gone with the next `git reset --hard`.
+    volumes:
+      - media_data:/app/public/media/uploads
+
+  # Short-lived on purpose — a worker that dies quickly carries no stale connection far.
+  mailer_worker:
+    image: ${IMAGES_PREFIX:-}app-php-prod
+    build:
+      context: .
+      target: frankenphp_prod
+    command: ['bin/console', 'messenger:consume', 'mailing', '-vvv', '--time-limit=60', '--limit=10', '--memory-limit=128M']
+    restart: unless-stopped
+    # php being healthy means the entrypoint has finished migrating.
+    depends_on:
+      php:
+        condition: service_healthy
+    # `up --wait` needs one, and a worker serves no HTTP to check.
+    healthcheck:
+      # CMD, not CMD-SHELL: a shell would carry the pattern in its own command line and
+      # pgrep would find itself.
+      test: ["CMD", "pgrep", "-f", "messenger:consume"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 60s
+    volumes:
+      - media_data:/app/public/media/uploads
+    environment:
+      <<: *common-env
+
+volumes:
+  media_data:

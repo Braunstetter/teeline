@@ -1,0 +1,63 @@
+registration:
+    title: 'Registrieren'
+    form:
+        firstname: 'Vorname'
+        lastname: 'Nachname'
+        gender:
+            label: 'Anrede'
+            placeholder: 'Bitte auswählen'
+        email: 'E-Mail-Adresse'
+        password: 'Passwort vergeben'
+        password_repeat: 'Passwort bestätigen'
+        submit: 'Registrieren'
+        agree_terms: 'Ich bin einverstanden, dass mein Name und meine E-Mail-Adresse für den Zugang zur Demo gespeichert werden.'
+        error: 'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.'
+        success:
+            headline: 'Registrierung erfolgreich'
+            text: 'Wir haben dir eine Bestätigungs-E-Mail gesendet. Klicke den Link in der E-Mail, um dein Konto zu verifizieren.'
+            hint: 'Keine E-Mail erhalten? Prüfe deinen Spam-Ordner.'
+            resent: 'Da dein Bestätigungslink abgelaufen ist, haben wir dir eine neue E-Mail gesendet. Bitte überprüfe deine E-Mails, um dein Konto zu verifizieren.'
+            to_login: 'Zur Anmeldung'
+    already_registered: 'Schon registriert?'
+    verify:
+        failed: 'Dieser Link funktioniert nicht. Trag deine Adresse noch einmal ein, dann kommt ein neuer.'
+    welcome:
+        title: 'Willkommen in deinem Admin-Panel'
+        message: 'Du hast dich erfolgreich registriert.'
+
+login:
+    title: 'Anmelden'
+    form:
+        email: 'E-Mail-Adresse'
+        password: 'Passwort'
+        remember_me: 'Angemeldet bleiben'
+        reset_password: 'Passwort vergessen?'
+        submit: 'Einloggen'
+        bad_credentials: 'Ungültige Anmeldedaten.'
+        captcha_failed: 'Die Sicherheitsprüfung ist fehlgeschlagen. Lade die Seite neu und versuch es noch einmal.'
+    not_a_member: 'Noch keinen Account?'
+    register: 'Registrieren'
+    already_verified: 'Diese Adresse ist schon bestätigt. Melde dich einfach an.'
+
+reset_password:
+    title: 'Passwort vergessen?'
+    title_2: 'Setze es hier zurück.'
+    back_to_login: 'Zurück zur Anmeldung'
+    form:
+        email: 'E-Mail-Adresse'
+        email_help: 'Gib deine E-Mail-Adresse ein, und wir senden dir einen Link zum Zurücksetzen deines Passworts.'
+        submit: 'Sende E-Mail'
+        success:
+            headline: 'E-Mail gesendet'
+            text: 'Wenn ein Konto mit deiner E-Mail-Adresse existiert, wurde gerade eine E-Mail gesendet, die einen Link enthält, den du zum Zurücksetzen deines Passworts verwenden kannst.
+                Dieser Link läuft in %expiration% ab.'
+            text_2: 'Wenn du keine E-Mail erhalten hast, überprüfe bitte deinen Spam-Ordner oder'
+            text_3: 'versuche es erneut.'
+    reset_form:
+        title: 'Setze dein Passwort zurück'
+        submit: 'Passwort zurücksetzen'
+        password: 'Neues Passwort'
+        password_repeat: 'Neues Passwort wiederholen'
+
+turnstile:
+    disabled_info: 'Bestätige, dass du ein Mensch bist, indem du in das Kästchen unter diesem Button klickst.'

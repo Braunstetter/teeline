@@ -1,0 +1,27 @@
+[data-controller~='single-upload'] {
+    .form-errors > .error-row {
+        @apply mb-3 rounded bg-danger;
+
+        > p {
+            @apply mb-0;
+        }
+    }
+
+    .image-preview,
+    .file-preview {
+        @apply mb-3 flex;
+
+        > svg {
+            @apply h-56 w-56 shrink-0;
+        }
+
+        > img,
+        > video {
+            @apply my-0 h-auto w-full;
+        }
+    }
+
+    .hidden-input {
+        @apply hidden;
+    }
+}

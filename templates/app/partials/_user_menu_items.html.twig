@@ -1,0 +1,18 @@
+{# Must be included within a dropdown.html.twig embed context #}
+{% import 'partials/macro/dropdown_macro.html.twig' as dropdown %}
+
+<p class="border-b border-line/70 px-4 py-2 text-center text-xs/5 whitespace-nowrap text-ink-muted">
+    {{- app.user.email -}}
+</p>
+
+{{ dropdown.item({
+    url: path('app_profile'),
+    icon: 'heroicons:user-circle',
+    text: 'profile'|trans({}, 'navigation'),
+    current: app.request.attributes.get('_route') == 'app_profile',
+}) }}
+
+{{ dropdown.item({
+    url: logout_path(),
+    text: 'logout.link'|trans({}, 'user'),
+}) }}

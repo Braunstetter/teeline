@@ -1,0 +1,105 @@
+---
+# Development environment override
+services:
+  php:
+    image: ${IMAGES_PREFIX:-}app-php-dev
+    build:
+      context: .
+      target: frankenphp_dev
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    volumes:
+      - ./:/app
+      - ./frankenphp/Caddyfile:/etc/frankenphp/Caddyfile:ro
+      - ./frankenphp/conf.d/20-app.dev.ini:/usr/local/etc/php/app.conf.d/20-app.dev.ini:ro
+      - ./frankenphp/certs:/etc/caddy/certs:ro
+      # If you develop on Mac or Windows you can remove the vendor/ directory
+      #  from the bind-mount for better performance by enabling the next line:
+      #- /app/vendor
+    environment:
+      FRANKENPHP_WORKER_CONFIG: watch
+      FRANKENPHP_SITE_CONFIG: hot_reload
+      MERCURE_EXTRA_DIRECTIVES: demo
+      MAILER_DSN: smtp://mailer:1025
+      # See https://xdebug.org/docs/all_settings#mode
+      XDEBUG_MODE: "${XDEBUG_MODE:-develop}"
+      APP_ENV: "${APP_ENV:-dev}"
+      # mkcert-signed, so the browser trusts it — see docs/tls.md
+      CADDY_EXTRA_CONFIG: |
+        https:// {
+            tls /etc/caddy/certs/tls.pem /etc/caddy/certs/tls.key
+        }
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+    tty: true
+  # Not started with the stack: `make npm`/`make dev` run it on demand.
+  node:
+    image: ${IMAGES_PREFIX:-}app-node
+    pull_policy: build
+    build:
+      context: .
+      target: node_base
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    environment:
+      npm_config_cache: /npm-cache
+    volumes:
+      - ./:/app
+      - npm_cache:/npm-cache
+    ports:
+      # The vite dev server, reached straight from the browser — `make dev` maps it.
+      - "5173:5173"
+    profiles:
+      - donotstart
+
+###> symfony/mercure-bundle ###
+###< symfony/mercure-bundle ###
+
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      # Fixed so tools outside the containers keep a stable address. Another project on
+      # this machine holds 32772, so this one takes the next free port.
+      - "32773:5432"
+###< doctrine/doctrine-bundle ###
+
+  # Short-lived so it picks up code changes on its own.
+  mailer_worker:
+    image: ${IMAGES_PREFIX:-}app-php-dev
+    build:
+      context: .
+      target: frankenphp_dev
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    command: ['bin/console', 'messenger:consume', 'mailing', '-vvv', '--time-limit=60', '--limit=10']
+    restart: unless-stopped
+    # `up --wait` needs one, and a worker serves no HTTP to check.
+    healthcheck:
+      # CMD, not CMD-SHELL: a shell would carry the pattern in its own command line and
+      # pgrep would find itself.
+      test: ["CMD", "pgrep", "-f", "messenger:consume"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      php:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+    environment:
+      MAILER_DSN: smtp://mailer:1025
+      APP_ENV: "${APP_ENV:-dev}"
+
+###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025"
+      # Fixed so the web interface stays bookmarkable, next free one after the database.
+      - "32774:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+###< symfony/mailer ###
+
+volumes:
+  npm_cache:

@@ -1,0 +1,29 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'security' %}
+
+{% block title %}{{ 'reset_password.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'reset_password.title'|trans ~ ' ' ~ 'reset_password.title_2'|trans, attr: {class: 'mb-4'} }) }}
+
+        <p class="text-sm/6 text-ink-muted">{{ 'reset_password.form.email_help'|trans }}</p>
+    </div>
+
+    <div class="max-w-prose mx-auto">
+        {{ form_start(requestForm) }}
+            {{ form_row(requestForm.email) }}
+            {{ form_row(requestForm.security) }}
+            {{ form_row(requestForm.submit) }}
+        {{ form_end(requestForm) }}
+
+        <p class="mt-10 text-center text-sm/6 text-ink-muted">
+            <a href="{{ path('app_login') }}" class="{{ classes.link() }}">{{ 'reset_password.back_to_login'|trans }}</a>
+        </p>
+    </div>
+{% endblock %}

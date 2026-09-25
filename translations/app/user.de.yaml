@@ -1,0 +1,58 @@
+logout:
+    link: 'Abmelden'
+
+user_menu:
+    picture_alt: 'Benutzerbild'
+
+profile:
+    headline: 'Profil'
+    form:
+        settings:
+            email: 'E-Mail-Adresse'
+            submit: 'Speichern'
+            firstName: 'Vorname'
+            lastName: 'Nachname'
+            gender: 'Geschlecht'
+            picture:
+                label: 'Foto'
+                delete_label: 'Bild entfernen'
+                change_label: 'Bild ändern'
+                confirm:
+                    title: 'Profilbild ändern'
+                    body: |
+                        Das aktuelle Bild wird <b>entfernt</b>.
+                        Die Änderung gilt <b>nach dem Speichern</b>.
+                    confirm: 'Ja, ändern!'
+                    cancel: 'Abbrechen'
+            language:
+                label: 'Sprache'
+                help: 'Die Sprache deiner Benutzeroberfläche'
+        email_change:
+            pending:
+                title: 'Bestätigungsmail gesendet'
+                message: 'Wir haben einen Bestätigungslink an deine neue E-Mail-Adresse gesendet. Klicke auf den Link, um die Änderung abzuschließen.'
+            already_in_use: 'Diese E-Mail-Adresse wird bereits verwendet.'
+            throttled: 'Zu viele Anfragen. Bitte warte ein paar Minuten und versuche es erneut.'
+            confirmed:
+                title: 'E-Mail aktualisiert'
+                message: 'Deine E-Mail-Adresse wurde erfolgreich geändert.'
+            error:
+                title: 'Link abgelaufen'
+                message: 'Dieser Bestätigungslink ist abgelaufen oder ungültig. Bitte fordere die Änderung erneut an.'
+        success:
+            title: 'Passt!'
+            message: 'Dein Profil ist auf dem neuesten Stand.'
+        delete:
+            legend: 'Account löschen'
+            help: 'Du möchtest unseren Service nicht mehr nutzen? Dann kannst du dein Konto hier löschen. Diese Aktion ist nicht rückgängig zu machen. Alle Informationen, die mit diesem Konto verknüpft sind, werden dauerhaft gelöscht.'
+            confirm:
+                title: 'Konto löschen'
+                body: |
+                    Diese Aktion ist <b>nicht rückgängig</b> zu machen. 
+                    Alle Informationen, die mit diesem Konto verknüpft sind, werden <b>dauerhaft gelöscht</b>.
+                confirm: 'Ja, löschen!'
+                cancel: 'Abbrechen'
+            success:
+                title: 'Konto gelöscht'
+                goodbye: 'Dein Konto wurde erfolgreich gelöscht. Es tut uns leid, dass du gehst!'
+                hint: 'Wenn du deine Meinung änderst, kannst du jederzeit ein neues Konto erstellen.'

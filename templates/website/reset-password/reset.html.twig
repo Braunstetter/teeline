@@ -1,0 +1,23 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'security' %}
+
+{% block title %}{{ 'reset_password.reset_form.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'reset_password.reset_form.title'|trans, attr: {class: 'mb-4'} }) }}
+    </div>
+
+    <div class="max-w-prose mx-auto">
+        {{ form_start(resetForm) }}
+            {{ form_row(resetForm.plainPassword.first) }}
+            {{ form_row(resetForm.plainPassword.second) }}
+            {{ form_row(resetForm.submit) }}
+        {{ form_end(resetForm) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% import 'app/partials/macro/nav_item.html.twig' as nav %}
+{% import 'partials/macro/transition.html.twig' as transition %}
+
+{% trans_default_domain 'app' %}
+
+{% set current_route = app.request.attributes.get('_route') %}
+
+<header class="fixed top-0 right-0 left-0 z-50 flex items-center border-b border-line/70 bg-surface-raised px-4 md:hidden"
+        data-controller="mobile-menu" data-mobile-menu-hidden-class="hidden">
+    <nav class="flex h-14 flex-1 items-center gap-4" aria-label="{{ 'menu.main.mobile.sr-only'|trans }}">
+        {% include 'partials/logo.html.twig' with { path: path('app_dashboard') } only %}
+
+        <div class="flex min-w-0 flex-1 items-center justify-end gap-4">
+
+            {% embed 'partials/embed/dropdown.html.twig' with {
+                name: 'user-mobile',
+                attr: {
+                    class: 'relative flex items-center justify-end text-left py-2 h-14',
+                },
+                button_attr: {
+                    class: 'flex size-10 items-center justify-center overflow-hidden rounded-full',
+                    'aria-label': 'user_menu'|trans({}, 'app'),
+                },
+                arrow: false,
+            } only %}
+
+                {% block buttonContent %}
+                    {% include 'app/partials/_user_image.html.twig' only %}
+                {% endblock %}
+
+                {% block content %}
+                    {% include 'app/partials/_user_menu_items.html.twig' only %}
+                {% endblock %}
+
+            {% endembed %}
+
+            <div class="-mr-2 flex items-center">
+                <button type="button"
+                        data-mobile-menu-target="button"
+                        aria-controls="mobile-menu"
+                        aria-expanded="false"
+                        class="relative inline-flex items-center justify-center rounded-xl p-2 text-ink-muted transition-colors duration-150 ease-in-out hover:bg-brand/5 hover:text-ink focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none">
+                    <span class="absolute -inset-0.5"></span>
+                    <span class="sr-only">{{ 'menu.main.mobile.button.sr-only'|trans }}</span>
+
+                    {{ ux_icon('heroicons:bars-3', {class: 'block size-6', 'data-mobile-menu-target': 'closedIcon'}) }}
+                    {{ ux_icon('heroicons:x-mark', {class: 'hidden size-6', 'data-mobile-menu-target': 'openIcon'}) }}
+                </button>
+            </div>
+
+            <div class="hidden absolute top-16 right-0 z-10"
+                 id="mobile-menu"
+                 data-mobile-menu-target="menu"
+                 {{ transition.slide_x() }}
+            >
+                <div class="space-y-1 py-2 bg-surface-raised shadow-lg">
+                    <ul role="list" class="space-y-1 px-2">
+                        {{ nav.nav_item(
+                            href: path('app_dashboard'),
+                            label: 'dashboard'|trans({}, 'navigation'),
+                            isCurrent: current_route == 'app_dashboard',
+                        ) }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,19 @@
+{% import 'classes.html.twig' as classes %}
+{% import 'app/partials/macro/nav_item.html.twig' as nav %}
+
+{% trans_default_domain 'app' %}
+
+{% set current_route = app.request.attributes.get('_route') %}
+
+{% set nav_list_classes = '-mx-2 space-y-1' %}
+{% set nav_section_label_classes = 'text-xs/6 font-normal text-ink-muted pl-8' %}
+
+<nav id="sidebar-nav" class="flex flex-1 flex-col mt-12" aria-label="{{ 'menu.main.sr-only'|trans }}">
+    <ul role="list" class="{{ nav_list_classes }}">
+        {{ nav.nav_item(
+            href: path('app_dashboard'),
+            label: 'dashboard'|trans({}, 'navigation'),
+            isCurrent: current_route == 'app_dashboard',
+        ) }}
+    </ul>
+</nav>

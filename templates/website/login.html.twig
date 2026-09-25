@@ -1,0 +1,41 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'security' %}
+
+{% block title %}{{ 'login.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'login.title'|trans, attr: {class: 'mb-4'} }) }}
+
+        <p class="text-sm/6 text-ink-muted">
+            {{ 'login.not_a_member'|trans }}
+            <a href="{{ path('app_register') }}" class="{{ classes.link() }}">{{ 'login.register'|trans }}</a>
+        </p>
+    </div>
+
+    <div class="mx-auto w-full max-w-md">
+        {{ form_start(loginForm) }}
+            {{ form_row(loginForm._username) }}
+            {{ form_row(loginForm._password) }}
+            <div class="grid grid-cols-2 items-center gap-4">
+                {{ form_row(loginForm._remember_me) }}
+
+                <p class="text-right text-sm/6">
+                    <a href="{{ path('app_forgot_password_request') }}" class="{{ classes.link() }}">
+                        {{- 'login.form.reset_password'|trans -}}
+                    </a>
+                </p>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+            {{ form_row(loginForm.security) }}
+            {{ form_row(loginForm.submit) }}
+        {{ form_end(loginForm) }}
+    </div>
+{% endblock %}

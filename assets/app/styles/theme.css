@@ -1,0 +1,71 @@
+/*
+ * Semantic names, not paint names: a template says what a colour is for, so a customer
+ * project can repaint by redefining these -- not by touching markup.
+ */
+@theme {
+    /* The notification slides in when it appears and fades when it is dismissed. */
+    --animate-slide-in: slide-in 0.3s ease-out;
+    --animate-fade-out: fade-out 0.3s ease-in forwards;
+    --animate-slide-in-up: slide-in-up 0.15s cubic-bezier(0.25, 0, 0.3, 1) forwards;
+
+    @keyframes slide-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(1rem);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slide-in {
+        from {
+            opacity: 0;
+            transform: translateY(0.5rem);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fade-out {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+    /* Extra breakpoint below sm (40rem): two-column field groups fit on wider phones. */
+    --breakpoint-xs: 30rem;
+
+    --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+
+    --color-surface: #FFF9ED;         /* the page itself */
+    --color-surface-raised: #FFFFFF;  /* what sits on the page: sidebar, cards, menus */
+    --color-surface-sunken: #FAF3E0;
+    --color-surface-strong: #F2E8C9;
+
+    --color-brand: #005A5F;
+    --color-brand-hover: #007B83;
+    --color-brand-strong: #004549;
+
+    --color-ink: var(--color-neutral-700);
+    --color-ink-muted: var(--color-neutral-500);
+    --color-line: var(--color-neutral-300);
+
+    --color-highlight: #F4D03F;
+    --color-danger: #E74C3C;
+    --color-danger-soft: #F28B82;
+}
+
+/*
+ * Tailwind 3 carried this in the JS config (`container: { center, padding }`); version 4
+ * dropped that knob, so the utility says it itself. Without it the frame sits left.
+ */
+@utility container {
+    margin-inline: auto;
+    padding-inline: 1rem;
+}

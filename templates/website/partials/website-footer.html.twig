@@ -1,0 +1,10 @@
+{% trans_default_domain 'website_legal' %}
+{% import 'website/classes.html.twig' as classes %}
+
+<footer class="border-t border-line/50">
+    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <p class="text-center {{ classes.note() }}">
+            {{- 'footer.copyright'|trans({'%year%': 'now'|date('Y')}) -}}
+        </p>
+    </div>
+</footer>

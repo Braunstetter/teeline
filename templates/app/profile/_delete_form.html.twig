@@ -1,0 +1,36 @@
+{% trans_default_domain 'user' %}
+
+{% use 'partials/block/blocks.html.twig' %}
+{% import 'partials/macro/macro.html.twig' as std %}
+
+{% set routeUrl = path('app_profile_delete') %}
+
+{% set attr = {
+    method: 'POST',
+    action: routeUrl,
+    id: 'profile-delete-form',
+    'data-confirm-title' : 'profile.form.delete.confirm.title'|trans,
+    'data-confirm-body' : 'profile.form.delete.confirm.body'|trans,
+    'data-cancel-btn-text' : 'profile.form.delete.confirm.cancel'|trans,
+    'data-confirm-btn-text' : 'profile.form.delete.confirm.confirm'|trans,
+} %}
+
+{% set button_attr = {
+    'data-turbo-confirm': true,
+    'data-controller': 'hotkey',
+    'data-hotkey': 'Alt+Backspace',
+} %}
+
+{% set button_attr = button_attr|attach({id: 'profile-delete-btn'}) %}
+
+<form {{ std.attr(attr) }}>
+    <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ (app.user ? app.user.id : '0')) }}">
+
+    {% embed 'partials/embed/button.html.twig' with {
+        icon: 'heroicons:trash',
+        color: 'delete',
+        ariaLabel: 'profile.form.delete.confirm.confirm'|trans,
+        attr: button_attr,
+    } only %}
+    {% endembed %}
+</form>

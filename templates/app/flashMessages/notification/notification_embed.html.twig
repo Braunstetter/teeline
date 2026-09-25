@@ -1,0 +1,45 @@
+{# @var data \App\Value\FlashMessages\Types\Notification #}
+{% import 'classes.html.twig' as classes %}
+
+<div id="flash-{{ type.value }}-{{ random() }}" aria-live="assertive" aria-atomic="true"
+     data-controller="notification{% if data.confetti is defined and data.confetti is same as(true) %} party{% endif %}"
+        {% if data.timeToDestroy is defined and data.timeToDestroy is not null %}
+            data-notification-time-to-destroy-value="{{ data.timeToDestroy }}"
+        {% endif %}
+     class="animate-slide-in flex w-full flex-col items-center space-y-4 sm:items-end mb-3">
+
+    <div class="{{ classes.notification(type.value)|trim }}">
+        <div class="flex items-center">
+
+            <div class="shrink-0">
+                <span class="{{ classes.notification_icon(type.value)|trim }}">
+                    {{- ux_icon(type.icon, {class: 'size-5'}) -}}
+                </span>
+            </div>
+
+            <div class="ml-6 w-0 flex-1">
+                <h3 class="{{ classes.notification_title(type.value)|trim }}">
+                    {{ data.title }}
+                </h3>
+
+                {% if data.message is not null %}
+                    <div class="{{ classes.notification_message(type.value)|trim }}">
+                        <p>{{ data.message }}</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if data.canBeDismissed is same as(true) %}
+                <div class="ml-4 flex shrink-0">
+                    <button type="button"
+                            aria-label="{{ 'close_notification'|trans({}, 'app') }}"
+                            class="inline-flex size-8 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                            data-action="notification#close">
+                        {{- ux_icon('heroicons:x-mark', {class: 'size-5'}) -}}
+                    </button>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>

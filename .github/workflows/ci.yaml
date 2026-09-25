@@ -1,0 +1,130 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: ~
+  workflow_dispatch: ~
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  # The analysers want the same PHP as the app. This is the image the Dockerfile builds
+  # on, so the two stay in step; `install-php-extensions` ships with it.
+  quality:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    container: dunglas/frankenphp:1-php8.5
+    env:
+      COMPOSER_ALLOW_SUPERUSER: '1'
+      # Resolving this dependency tree needs more than composer's default.
+      COMPOSER_MEMORY_LIMIT: '-1'
+    strategy:
+      # One analyser failing says nothing about the others; run them all.
+      fail-fast: false
+      matrix:
+        include:
+          # A dependency edited by hand leaves the lock behind, and composer install
+          # then quietly skips it -- the failure surfaces somewhere else entirely.
+          - name: composer.lock
+            run: composer validate --strict
+          - name: ECS
+            run: vendor/bin/ecs check
+          # 128M is not enough for a cold run: the parallel workers crash without this.
+          - name: PHPStan
+            run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+          # Two passes, the same pair `make psalm` runs, so CI is not the laxer of the two.
+          - name: Psalm
+            run: vendor/bin/psalm --no-progress && vendor/bin/psalm --no-progress --show-info=true --taint-analysis
+          - name: Rector
+            run: vendor/bin/rector --dry-run
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Install PHP extensions
+        run: install-php-extensions @composer intl zip apcu pdo_pgsql
+      - name: Cache the dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+      - name: Install the dependencies
+        # With the scripts: cache:clear builds the container PHPStan's Symfony extension reads.
+        run: composer install --no-interaction --prefer-dist --no-progress
+      - name: ${{ matrix.name }}
+        run: ${{ matrix.run }}
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Match the container user to the runner
+        # compose.override.yaml bind-mounts the checkout and runs as USER_ID:GROUP_ID.
+        # Left at its default the container cannot write var/ or public/build.
+        run: |
+          echo "USER_ID=$(id -u)" >> "$GITHUB_ENV"
+          echo "GROUP_ID=$(id -g)" >> "$GITHUB_ENV"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build Docker images
+        uses: docker/bake-action@v7
+        with:
+          pull: true
+          load: true
+          source: .
+          files: |
+            compose.yaml
+            compose.override.yaml
+          set: |
+            *.cache-from=type=gha,scope=${{github.ref}}
+            *.cache-from=type=gha,scope=refs/heads/main
+            *.cache-to=type=gha,scope=${{github.ref}},mode=max
+      - name: Build the assets
+        # public/build is not committed and the templates resolve their URLs through vite's
+        # manifest, so every page carrying app.css dies until this has run.
+        run: |
+          docker compose run --rm node npm ci
+          docker compose run --rm node npm run build
+      - name: Start services
+        run: docker compose up --wait --no-build
+      - name: Check HTTP reachability
+        run: curl -v --fail-with-body http://localhost
+      - name: Check Mercure reachability
+        run: curl -vI --insecure --fail-with-body https://localhost/.well-known/mercure?topic=test
+      - name: Create the test database
+        # `doctrine.dbal.dbname_suffix` under when@test puts the suite on its own database;
+        # the entrypoint only migrates the one the app itself runs on.
+        run: docker compose exec -T php bin/console -e test doctrine:database:create
+      - name: Run migrations
+        run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+      - name: Doctrine schema validator
+        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+      - name: PHPUnit
+        run: docker compose exec -T php bin/phpunit
+
+  prod-image:
+    name: Production image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build the production stage
+        # The verify stage fails the build if Imagick's coder modules didn't make it in.
+        run: docker build --target frankenphp_prod_verify .

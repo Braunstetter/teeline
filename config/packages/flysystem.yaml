@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+flysystem:
+    storages:
+        media.storage:
+            adapter: 'local'
+            visibility: 'public'
+            options:
+                directory: '%kernel.project_dir%/public%upload_public_dir%'
+
+when@test:
+    flysystem:
+        storages:
+            media.storage:
+                adapter: 'memory'

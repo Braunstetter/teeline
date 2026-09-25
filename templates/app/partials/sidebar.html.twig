@@ -1,0 +1,37 @@
+{% trans_default_domain 'app' %}
+
+<div class="fixed inset-y-0 left-0 flex h-full w-64 min-h-0 flex-col bg-surface-raised shadow-sm max-md:hidden">
+    <div class="flex flex-1 flex-col overflow-y-auto p-4 pt-3">
+        {%~ include 'partials/logo.html.twig' with {
+            path: path('app_dashboard'),
+        } only ~%}
+
+        {% include 'app/partials/_sidebar_nav.html.twig' %}
+    </div>
+
+    <div class="flex flex-col border-t border-line p-4">
+
+        {% embed 'partials/embed/dropdown.html.twig' with {
+            name: 'user-sidebar',
+            attr: {
+                class: 'relative flex items-center justify-end text-left py-2 h-14',
+            },
+            button_attr: {
+                class: 'flex size-10 items-center justify-center overflow-hidden rounded-full',
+                'aria-label': 'user_menu'|trans({}, 'app'),
+            },
+            arrow: false,
+        } only %}
+
+            {% block buttonContent %}
+                {% include 'app/partials/_user_image.html.twig' only %}
+            {% endblock %}
+
+            {% block content %}
+                {% include 'app/partials/_user_menu_items.html.twig' only %}
+            {% endblock %}
+
+        {% endembed %}
+
+    </div>
+</div>

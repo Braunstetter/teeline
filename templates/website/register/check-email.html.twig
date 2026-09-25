@@ -1,0 +1,38 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'security' %}
+
+{% block title %}{{ 'registration.form.success.headline'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'registration.form.success.headline'|trans, attr: {class: 'mb-4'} }) }}
+    </div>
+
+    <div class="mx-auto max-w-prose text-center">
+        {% embed 'partials/embed/box.html.twig' with {
+            icon: 'heroicons:envelope',
+            resent: resent,
+        } only %}
+            {% block message %}
+                {%- if resent -%}
+                    {{- 'registration.form.success.resent'|trans({}, 'security') -}}
+                {%- else -%}
+                    {{- 'registration.form.success.text'|trans({}, 'security') -}}
+                {%- endif -%}
+            {% endblock %}
+
+            {% block hint %}
+                {{- 'registration.form.success.hint'|trans({}, 'security') -}}
+            {% endblock %}
+        {% endembed %}
+
+        <p class="mt-6 text-sm/6 text-ink-muted">
+            <a href="{{ path('app_login') }}" class="{{ classes.link() }}">{{ 'registration.form.success.to_login'|trans }}</a>
+        </p>
+    </div>
+{% endblock %}

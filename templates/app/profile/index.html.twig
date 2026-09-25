@@ -1,0 +1,29 @@
+{% extends 'app/base.html.twig' %}
+{% trans_default_domain 'user' %}
+{% import 'classes.html.twig' as classes %}
+
+{% set page_title = 'profile.headline'|trans %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_content %}
+    <div class="max-w-prose space-y-5">
+        {% include 'app/profile/_form.html.twig' with {form: form} only %}
+    </div>
+{% endblock %}
+
+{% block page_footer %}
+    <div class="space-y-5">
+        <div>
+            <h3 class="{{ classes.form_label() }}">
+                {{ 'profile.form.delete.legend'|trans }}
+            </h3>
+
+            <p class="mt-3 {{ classes.form_help() }}">
+                {{ 'profile.form.delete.help'|trans }}
+            </p>
+        </div>
+
+        {% include 'app/profile/_delete_form.html.twig' only %}
+    </div>
+{% endblock %}

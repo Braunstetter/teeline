@@ -1,0 +1,27 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'user' %}
+
+{% block title %}{{ 'profile.form.delete.success.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'profile.form.delete.success.title'|trans, attr: {class: 'mb-4'} }) }}
+    </div>
+
+    <div class="mx-auto max-w-prose text-center">
+        {% embed 'partials/embed/box.html.twig' only %}
+            {% block message %}
+                {{- 'profile.form.delete.success.goodbye'|trans({}, 'user') -}}
+            {% endblock %}
+
+            {% block hint %}
+                {{- 'profile.form.delete.success.hint'|trans({}, 'user') -}}
+            {% endblock %}
+        {% endembed %}
+    </div>
+{% endblock %}

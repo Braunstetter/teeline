@@ -1,0 +1,10 @@
+{% use 'app/flashMessages/notifications_blocks.html.twig' %}
+
+{# Flashes need a session; a stateless request (the public firewall)
+   would throw on the first touch, so this partial guards itself. #}
+{% if not app.request.attributes.get('_stateless', false) %}
+    <div id="notifications"
+         class="z-50 fixed inset-0 flex flex-col justify-end md:justify-start items-end px-4 py-6 sm:items-start sm:p-6 pointer-events-none">
+        {{ block('notifications') }}
+    </div>
+{% endif %}

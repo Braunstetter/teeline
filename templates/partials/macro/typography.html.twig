@@ -1,0 +1,68 @@
+{% macro h1(config) %}
+    {% set text = config.text ?? null %}
+
+    <h1 class="max-w-2xl text-balance text-5xl font-semibold tracking-tight text-ink sm:text-7xl lg:col-span-2 xl:col-auto">
+        {{- text -}}
+    </h1>
+{% endmacro %}
+
+{% macro h2(config) %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% import 'classes.html.twig' as classes %}
+
+    {% set text = config.text ?? null %}
+    {% set attr = config.attr ?? {} %}
+    {% set attr = attr|attachClass(classes.h2()|trim) %}
+
+    <h2 {{ std.attr(attr) }}>
+        {{- text -}}
+    </h2>
+{% endmacro %}
+
+{% macro h3(config) %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% import 'classes.html.twig' as classes %}
+
+    {% set text = config.text ?? null %}
+    {% set attr = config.attr ?? {} %}
+    {% set attr = attr|attachClass(classes.h3()|trim) %}
+
+    <h3 {{ std.attr(attr) }}>
+        {{- text -}}
+    </h3>
+{% endmacro %}
+
+{% macro h4(config) %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% import 'classes.html.twig' as classes %}
+
+    {% set text = config.text ?? null %}
+    {% set attr = config.attr ?? {} %}
+    {% set attr = attr|attachClass(classes.h4()|trim) %}
+
+    <h4 {{ std.attr(attr) }}>
+        {{- text -}}
+    </h4>
+{% endmacro %}
+
+{% macro p(config) %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'website/classes.html.twig' as website_classes %}
+
+    {% set text = config.text ?? null %}
+    {% set attr = config.attr ?? {} %}
+    {% set type = config.type ?? 'app' %}
+
+    {% if type == 'app' %}
+        {% set attr = attr|attachClass(classes.p()|trim) %}
+    {% elseif type == 'website' %}
+        {% set attr = attr|attachClass(website_classes.p()|trim) %}
+    {% endif %}
+
+    {% set attr = attr|attachClass(config.fontWeight ?? 'font-medium') %}
+
+    <p {{ std.attr(attr) }}>
+        {{- text -}}
+    </p>
+{% endmacro %}

@@ -1,0 +1,42 @@
+{% extends 'website/website-base.html.twig' %}
+{% set is_public = false %}
+
+{% trans_default_domain 'security' %}
+
+{% block title %}{{ 'reset_password.form.success.headline'|trans }}{% endblock %}
+
+{% block content %}
+    {% import 'classes.html.twig' as classes %}
+    {% import 'partials/macro/typography.html.twig' as typography %}
+
+    <div class="mb-12 xl:mb-16 text-center">
+        {{ typography.h2({ text: 'reset_password.form.success.headline'|trans, attr: {class: 'mb-4'} }) }}
+    </div>
+
+    <div class="mx-auto max-w-prose text-center">
+        {% embed 'partials/embed/box.html.twig' with {
+            icon: 'heroicons:envelope',
+            resetToken: resetToken,
+        } only %}
+            {% block message %}
+                {{- 'reset_password.form.success.text'|trans({'%expiration%': resetToken.expirationMessageKey|trans(
+                    resetToken.expirationMessageData, 'ResetPasswordBundle'
+                )}, 'security') -}}
+            {% endblock %}
+
+            {% block hint %}
+                {%- import 'classes.html.twig' as classes -%}
+
+                {{- 'reset_password.form.success.text_2'|trans({}, 'security') ~}}
+
+                <a href="{{ path('app_forgot_password_request') }}" class="{{ classes.link() }}">
+                    {{- 'reset_password.form.success.text_3'|trans({}, 'security') -}}
+                </a>
+            {% endblock %}
+        {% endembed %}
+
+        <p class="mt-6 text-sm/6 text-ink-muted">
+            <a href="{{ path('app_login') }}" class="{{ classes.link() }}">{{ 'reset_password.back_to_login'|trans }}</a>
+        </p>
+    </div>
+{% endblock %}

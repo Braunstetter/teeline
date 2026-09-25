@@ -1,0 +1,13 @@
+/*
+ * The single entry. Tailwind's automatic detection stays off so that adding a second entry
+ * later only means listing its templates here -- see vite.config.js.
+ */
+@import "tailwindcss" source(none);
+@plugin "@tailwindcss/forms";
+
+@source "../../../templates";
+
+@import "./fonts.css";
+@import "./theme.css";
+@import "./components/dialog.css";
+@import "./components/uploads.css";

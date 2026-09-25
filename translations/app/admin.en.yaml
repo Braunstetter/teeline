@@ -1,0 +1,4 @@
+dashboard:
+    title: 'Overview'
+    tagline: 'Welcome back'
+    empty: 'Your seminars, dates and bookings will show up here.'

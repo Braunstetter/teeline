@@ -1,0 +1,55 @@
+{% import 'partials/macro/macro.html.twig' as std %}
+{% import 'classes.html.twig' as classes_macro %}
+
+{% set asLink = asLink ?? false %}
+{% set color = color ?? 'default' %}
+{% set attr = attr ?? {} %}
+{% set fullWidth = fullWidth ?? false %}
+{% set icon = icon ?? null %}
+{% set disabled = disabled ?? false %}
+{% set ariaLabel = ariaLabel ?? null %}
+{% set title = title ?? null %}
+{% set size = size ?? 'md' %}
+
+{# An expression, not a {% set %} block: that yields Markup, and ux-icons takes
+   scalars only. #}
+{% set icon_size = size == 'sm' ? 'size-4' : 'size-6' %}
+
+{# trim turns the macro's Markup into a plain string -- the attribute renderer
+   takes scalars only, and html_cva hands back Markup. #}
+{% set attr = attr|attachClass(classes_macro.btn(color, size)|trim) %}
+
+{% if fullWidth %}
+    {% set attr = attr|attachClass('w-full') %}
+{% endif %}
+
+{% if disabled is true %}
+    {% set attr = attr|merge({
+        disabled: 'disabled',
+        'aria-disabled': 'true',
+    }) %}
+{% endif %}
+
+{% if ariaLabel is not null %}
+    {% set attr = attr|merge({
+        'aria-label': ariaLabel,
+    }) %}
+{% endif %}
+
+{% if title is not null %}
+    {% set attr = attr|merge({
+        title: title,
+    }) %}
+{% endif %}
+
+<{{ asLink ? 'a' : 'button' }} {{ std.attr(attr) }}>
+
+{# Icons come from ux-icons here, so callers pass a name like 'heroicons:trash'
+   rather than the filename of an SVG partial. #}
+{% if icon is not null %}
+    {{ ux_icon(icon, { class: icon_size }) }}
+{% endif %}
+
+{%- block content -%} {%- endblock -%}
+
+</{{ asLink ? 'a' : 'button' }}>

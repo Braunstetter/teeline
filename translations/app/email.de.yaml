@@ -1,0 +1,23 @@
+greeting: 'Hey%name%!'
+cheers: 'Cheers!'
+salutation: 'Dein %app_name%'
+
+verification:
+    subject: 'Nur noch ein Klick'
+    please_verify: 'schön, dass du dabei bist. Ein Klick noch: [E-Mail-Adresse bestätigen](%link%)'
+
+reset_password:
+    subject: 'Neues Passwort setzen'
+    please_reset: 'du willst dein Passwort ändern. Hier entlang: [neues Passwort setzen](%link%)'
+
+email_change:
+    confirmation:
+        subject: 'Bestätige deine neue E-Mail-Adresse'
+        body: 'Klicke auf diesen [Link](%link%) um deine neue E-Mail-Adresse zu bestätigen.'
+        link_will_expire: 'Dieser Link wird in **24 Stunden** ablaufen.'
+    notification:
+        subject: 'E-Mail-Änderung angefragt'
+        body: |
+            Jemand hat eine Änderung der E-Mail-Adresse deines Kontos beantragt.
+
+            Falls das nicht du warst, sichere dein Konto bitte umgehend.

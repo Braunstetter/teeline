@@ -1,0 +1,13 @@
+{% block notifications %}
+    {% set notification_type = enum('App\\Enum\\NotificationType') %}
+    {% for label, messages in app.flashes(notification_type.toArray()) %}
+        {% for message in messages %}
+            {# @var data \App\Value\FlashMessages\Types\Notification #}
+            {% set data = message|json_decode %}
+            {% include 'app/flashMessages/notification/notification_embed.html.twig' with {
+                data: data,
+                type: notification_type.from(label),
+            } only %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

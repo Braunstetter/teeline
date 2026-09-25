@@ -1,0 +1,47 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    driver: "imagick"
+
+    loaders:
+        uploads:
+            flysystem:
+                filesystem_service: 'media.storage'
+
+    resolvers:
+        uploads:
+            flysystem:
+                filesystem_service: 'media.storage'
+                root_url: "%upload_public_dir%"
+                # Matches the adapter: a private file on the local disk gets 0600 and the
+                # web server hands out nothing. Making these truly private means serving
+                # them through a controller, cached derivatives included -- not a flag here.
+                visibility: public
+
+    data_loader: uploads
+    cache: uploads
+
+    default_filter_set_settings:
+        quality: 85
+        jpeg_quality: 85
+        png_compression_level: 9
+        png_compression_filter: ~
+
+    twig:
+        mode: lazy
+
+    filter_sets:
+        wide_xl:
+            quality: 85
+            jpeg_quality: 85
+            filters:
+                auto_rotate: ~
+                relative_resize:
+                    widen: 1200
+        square_128:
+            quality: 80
+            jpeg_quality: 80
+            filters:
+                auto_rotate: ~
+                thumbnail:
+                    size: [ 128, 128 ]
+                    mode: outbound

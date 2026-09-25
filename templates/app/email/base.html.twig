@@ -1,0 +1,20 @@
+{% trans_default_domain 'email' %}
+
+{% apply markdown_to_html %}
+{{ 'greeting'|trans({'%name%': recipient_name ? ' ' ~ recipient_name : ''}) }}
+
+{% apply dedent %}{% block body %}{% endblock %}{% endapply %}
+
+{{ 'cheers'|trans }}<br>
+{{ 'salutation'|trans({'%app_name%': app_name}) }}
+
+{% set _footer %}{% block footer %}{% endblock %}{% endset %}
+{% if _footer|trim is not empty %}
+{% apply dedent %}
+
+---
+
+{{ _footer }}
+{% endapply %}
+{% endif %}
+{% endapply %}

@@ -1,0 +1,11 @@
+{% extends 'app/base.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% set page_title = 'dashboard.title'|trans %}
+
+{% block page_tagline %}{{ 'dashboard.tagline'|trans }}{% endblock %}
+
+{% block page_content %}
+    <p class="text-sm/6 text-ink-muted">{{ 'dashboard.empty'|trans }}</p>
+{% endblock %}

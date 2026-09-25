@@ -1,0 +1,31 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            # Queue lives in Postgres; since Symfony 8.1 LISTEN/NOTIFY wakes the worker.
+            #
+            # queue_name goes into options, not into the DSN: the env var already carries
+            # a query string, and appending a second "?" silently drops the parameter --
+            # both transports then share the default queue, and the worker picks its own
+            # failed messages straight back up.
+            mailing:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    queue_name: mailing
+            failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    queue_name: failed
+
+        routing:
+            'Symfony\Component\Mailer\Messenger\SendEmailMessage': mailing
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                # Kept in memory so tests can inspect what would have been sent --
+                # including the failures, which would otherwise hit the database.
+                mailing: 'in-memory://'
+                failed: 'in-memory://'

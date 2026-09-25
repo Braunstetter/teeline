@@ -1,0 +1,22 @@
+{% set _base_url = url('app_root') %}
+
+{% set _json_ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": _base_url ~ "#website",
+            "name": 'app_name'|trans({}, 'app'),
+            "url": _base_url,
+            "publisher": { "@id": _base_url ~ "#organization" },
+            "inLanguage": app.enabled_locales,
+        },
+        {
+            "@type": "Organization",
+            "@id": _base_url ~ "#organization",
+            "name": 'app_name'|trans({}, 'app'),
+            "url": _base_url,
+        },
+    ],
+} %}
+<script type="application/ld+json">{{ _json_ld|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>

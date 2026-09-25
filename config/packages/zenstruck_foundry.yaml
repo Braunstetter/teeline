@@ -1,0 +1,18 @@
+when@dev:
+    zenstruck_foundry:
+        enable_auto_refresh_with_lazy_objects: true
+        persistence:
+            flush_once: true
+        make_factory:
+            add_hints: false
+        orm:
+            reset:
+                mode: migrate
+
+when@test:
+    zenstruck_foundry:
+        enable_auto_refresh_with_lazy_objects: true
+        persistence:
+            flush_once: true
+        make_factory:
+            add_hints: false

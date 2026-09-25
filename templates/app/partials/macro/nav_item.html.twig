@@ -1,0 +1,26 @@
+{% macro nav_item(href, label, isCurrent, weight) %}
+    {% set nav = html_cva(
+        base: 'block rounded-xl py-2 pl-10 pr-2 text-sm/6 text-brand',
+        variants: {
+            weight: {
+                semibold: 'font-semibold',
+                medium: 'font-medium',
+            },
+            active: {
+                true: 'bg-brand/5',
+                false: 'hover:bg-brand/5 transition-colors duration-200',
+            },
+        },
+        default_variant: {
+            weight: 'medium',
+        },
+    ) %}
+
+    <li>
+        <a href="{{ href }}"
+           class="{{ nav.apply({weight: weight, active: isCurrent}) }}"
+           {% if isCurrent %}aria-current="page"{% endif %}>
+            {{- label -}}
+        </a>
+    </li>
+{% endmacro %}

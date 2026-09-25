@@ -1,0 +1,15 @@
+/* Only apply backdrop blur to our app dialogs, not external ones */
+dialog[data-app-dialog="true"]::backdrop {
+    @apply backdrop-blur-sm;
+}
+
+/* Tailwind 4's preflight resets margin on every element, which takes the native
+   centering away from a modal dialog. */
+dialog[data-app-dialog="true"] {
+    margin: auto;
+}
+
+/* Only hide overflow when our app dialogs are open */
+html:has(dialog[data-app-dialog="true"][open]) {
+    overflow: hidden;
+}

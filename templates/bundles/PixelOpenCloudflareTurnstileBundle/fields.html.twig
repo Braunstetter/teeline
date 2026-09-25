@@ -1,0 +1,17 @@
+{% block turnstile_widget %}
+    {% import 'partials/macro/macro.html.twig' as std %}
+    {% if enable %}
+        {% set attr = attr|merge({
+            'class': ('cf-turnstile ' ~ attr.class|default(''))|trim,
+            'data-controller': 'turnstile',
+            'data-turnstile-site-key-value': key,
+            'data-turnstile-disabled-info-value': turnstile_disabled_info,
+            'data-turnstile-theme-value': turnstile_theme,
+            'data-turnstile-size-value': turnstile_size,
+            'data-turnstile-action-value': turnstile_action,
+            'data-turnstile-language-value': turnstile_language,
+        }) %}
+
+        <div{{ std.attr(attr) }}></div>
+    {% endif %}
+{% endblock %}

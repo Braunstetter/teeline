@@ -1,0 +1,38 @@
+{
+  "name": "teeline",
+  "version": "1.0.0",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Braunstetter/teeline.git"
+  },
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Braunstetter/teeline/issues"
+  },
+  "homepage": "https://github.com/Braunstetter/teeline#readme",
+  "devDependencies": {
+    "@floating-ui/dom": "^1.8.0",
+    "@github/hotkey": "^3.1.4",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo": "^8.0.23",
+    "@symfony/reprise": "^1.1.3",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/vite": "^4.3.3",
+    "dompurify": "^3.4.15",
+    "el-transition": "^0.0.7",
+    "frankenphp-hot-reload": "^1.0.1",
+    "idiomorph": "^0.7.4",
+    "party-js": "^2.2.0",
+    "stimulus-use": "^0.53.1",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.0"
+  },
+  "private": true
+}

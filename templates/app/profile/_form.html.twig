@@ -1,0 +1,21 @@
+{% trans_default_domain 'user' %}
+
+{{ form_start(form) }}
+
+{{ form_row(form.picture, {
+    label: 'profile.form.settings.picture.label'|trans,
+    row_attr: { 'data-controller': 'single-upload' }
+}) }}
+
+{{ form_row(form.email, { label: 'profile.form.settings.email'|trans }) }}
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+    {{ form_row(form.firstname, { label: 'profile.form.settings.firstName'|trans }) }}
+    {{ form_row(form.lastname, { label: 'profile.form.settings.lastName'|trans }) }}
+</div>
+
+{{ form_row(form.gender, { label: 'profile.form.settings.gender'|trans }) }}
+{{ form_row(form.language, { label: 'profile.form.settings.language.label'|trans }) }}
+{{ form_row(form.submit, { label: 'profile.form.settings.submit'|trans }) }}
+{{ form_rest(form) }}
+{{ form_end(form) }}

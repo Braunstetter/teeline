@@ -1,0 +1,58 @@
+logout:
+    link: 'Logout'
+
+user_menu:
+    picture_alt: 'User picture'
+
+profile:
+    headline: 'Profile'
+    form:
+        settings:
+            email: 'Email address'
+            submit: 'Save'
+            firstName: 'First name'
+            lastName: 'Last name'
+            gender: 'Gender'
+            picture:
+                label: 'Picture'
+                delete_label: 'Remove picture'
+                change_label: 'Change picture'
+                confirm:
+                    title: 'Change profile picture'
+                    body: |
+                        Current picture will be <b>removed</b>.
+                        Changes apply <b>after saving</b>.
+                    confirm: 'Yes, change!'
+                    cancel: 'Cancel'
+            language:
+                label: 'Language'
+                help: 'The language of your user interface'
+        email_change:
+            pending:
+                title: 'Confirmation email sent'
+                message: 'We sent a confirmation link to your new email address. Click the link to complete the change.'
+            already_in_use: 'This email address is already in use.'
+            throttled: 'Too many requests. Please wait a few minutes before trying again.'
+            confirmed:
+                title: 'Email updated'
+                message: 'Your email address has been changed successfully.'
+            error:
+                title: 'Link expired'
+                message: 'This confirmation link has expired or is invalid. Please request the change again.'
+        success:
+            title: 'Got it!'
+            message: 'Your profile is up to date.'
+        delete:
+            legend: 'Delete account'
+            help: 'No longer want to use our service? You can delete your account here. This action is not reversible. All information related to this account will be deleted permanently.'
+            confirm:
+                title: 'Delete my account'
+                body: |
+                    This action is <b>not reversible</b>. 
+                    All information related to this account will be <b>deleted permanently</b>.
+                confirm: 'Yes, delete!'
+                cancel: 'Cancel'
+            success:
+                title: 'Account deleted'
+                goodbye: 'Your account has been successfully deleted. We are sorry to see you go!'
+                hint: 'If you change your mind, you can always create a new account.'

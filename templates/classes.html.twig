@@ -1,0 +1,178 @@
+{%- macro form_label() -%}
+    {{- 'block text-sm/6 font-medium text-ink' -}}
+{%- endmacro -%}
+
+{%- macro form_help() -%}
+    {{- 'mt-1 text-sm/6 text-ink-muted' -}}
+{%- endmacro -%}
+
+{%- macro form_input(disabled = false) -%}
+    {{- html_cva(
+        base: 'mt-1 block w-full rounded-md px-3 py-2 text-base text-ink shadow-xs outline-1 -outline-offset-1 outline-line placeholder:text-ink-muted focus:outline-2 focus:-outline-offset-2 focus:outline-brand sm:text-sm/6',
+        variants: {
+            state: {
+                enabled: 'bg-surface-raised hover:outline-ink-muted',
+                disabled: 'cursor-not-allowed bg-surface-sunken text-ink-muted',
+            },
+        },
+    ).apply({state: disabled ? 'disabled' : 'enabled'}) -}}
+{%- endmacro -%}
+
+{%- macro form_input_error() -%}
+    {{- 'outline-danger-soft focus:outline-danger' -}}
+{%- endmacro -%}
+
+{%- macro form_checkbox() -%}
+    {{- 'size-4 rounded-sm border-line text-brand focus:ring-brand' -}}
+{%- endmacro -%}
+
+{%- macro form_radio() -%}
+    {{- 'size-4 border-line text-brand focus:ring-brand' -}}
+{%- endmacro -%}
+
+{%- macro form_error() -%}
+    {{- 'text-sm/6 text-danger' -}}
+{%- endmacro -%}
+
+{%- macro alert(variant = 'error') -%}
+    {{- html_cva(
+        base: 'mb-6 rounded-md px-3 py-2 text-sm/6',
+        variants: {
+            variant: {
+                error: 'bg-danger/10 text-danger',
+                info: 'bg-brand/5 text-brand-strong',
+            },
+        },
+    ).apply({variant: variant}) -}}
+{%- endmacro -%}
+
+{%- macro h3() -%}
+    {{- 'max-w-2xl text-pretty text-balance text-2xl font-semibold tracking-tight text-ink sm:text-3xl' -}}
+{%- endmacro -%}
+
+{%- macro h4() -%}
+    {{- 'text-pretty text-base font-medium text-ink-muted sm:text-lg' -}}
+{%- endmacro -%}
+
+{%- macro p() -%}
+    {{- 'text-pretty text-sm text-ink-muted sm:text-sm/6' -}}
+{%- endmacro -%}
+
+{%- macro btn(variant = 'primary', size = 'md') -%}
+    {{- html_cva(
+        base: 'flex items-center justify-center gap-x-2 no-underline rounded-xl text-sm/6 font-medium transition-all duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-50',
+        variants: {
+            variant: {
+                default: 'bg-surface-raised border border-line text-ink hover:border-brand hover:text-brand',
+                primary: 'bg-brand text-surface-raised hover:bg-brand-strong',
+                secondary: 'bg-surface-raised border border-line text-ink hover:border-brand hover:text-brand',
+                delete: 'bg-surface-raised border border-danger text-danger hover:bg-danger hover:text-surface-raised',
+                outline: 'text-brand ring-1 ring-inset ring-brand/30 hover:ring-brand/50',
+            },
+            size: {
+                md: 'px-3.5 py-4',
+                sm: 'px-2.5 py-3',
+            },
+        },
+    ).apply({variant: variant, size: size}) -}}
+{%- endmacro -%}
+
+{#
+   The application frame: the page content is one raised panel filling the height, not a
+   narrow column on the page background.
+#}
+{%- macro content_row() -%}
+    {{- 'flex flex-col md:px-8 md:max-lg:container xl:pl-12 2xl:max-w-(--breakpoint-xl)' -}}
+{%- endmacro -%}
+
+{%- macro content_container() -%}
+    {{- '@container flex-1 bg-surface-raised px-4 py-5 shadow-sm md:rounded-xl md:px-5 xl:p-12' -}}
+{%- endmacro -%}
+
+{%- macro divider() -%}
+    {{- 'border-t border-line/70 pt-3' -}}
+{%- endmacro -%}
+
+{%- macro tagline() -%}
+    {{- 'mb-1 h-5 text-sm text-ink-muted' -}}
+{%- endmacro -%}
+
+{%- macro link() -%}
+    {{- 'font-semibold text-brand hover:text-brand-hover' -}}
+{%- endmacro -%}
+
+{%- macro h2() -%}
+    {{- 'text-pretty text-4xl font-semibold tracking-normal text-ink sm:text-5xl' -}}
+{%- endmacro -%}
+
+{%- macro notification(type) -%}
+    {{- html_cva(
+        base: 'pointer-events-auto w-full max-w-lg overflow-hidden rounded-xl p-5 shadow-xl',
+        variants: {
+            type: {
+                notification_success: 'bg-surface-raised ring-2 ring-brand/50',
+                notification_error: 'bg-surface-raised ring-2 ring-danger/50',
+            },
+        },
+    ).apply({type: type}) -}}
+{%- endmacro -%}
+
+{%- macro notification_title(type) -%}
+    {{- html_cva(
+        base: 'text-sm font-semibold',
+        variants: {
+            type: {
+                notification_success: 'text-brand-strong',
+                notification_error: 'text-danger',
+            },
+        },
+    ).apply({type: type}) -}}
+{%- endmacro -%}
+
+{%- macro notification_message(type) -%}
+    {{- html_cva(
+        base: 'mt-2 text-sm',
+        variants: {
+            type: {
+                notification_success: 'text-ink-muted',
+                notification_error: 'text-ink-muted',
+            },
+        },
+    ).apply({type: type}) -}}
+{%- endmacro -%}
+
+{%- macro notification_icon(type) -%}
+    {{- html_cva(
+        base: 'inline-flex size-8 items-center justify-center rounded-full',
+        variants: {
+            type: {
+                notification_success: 'bg-brand/10 text-brand',
+                notification_error: 'bg-danger/10 text-danger',
+            },
+        },
+    ).apply({type: type}) -}}
+{%- endmacro -%}
+
+{%- macro box_icon_wrapper(variant) -%}
+    {{- html_cva(
+        base: 'mx-auto flex size-12 items-center justify-center rounded-full',
+        variants: {
+            variant: {
+                success: 'bg-brand/5',
+                error: 'bg-danger/5',
+            },
+        },
+    ).apply({variant: variant}) -}}
+{%- endmacro -%}
+
+{%- macro box_icon(variant) -%}
+    {{- html_cva(
+        base: 'size-6',
+        variants: {
+            variant: {
+                success: 'text-brand',
+                error: 'text-danger',
+            },
+        },
+    ).apply({variant: variant}) -}}
+{%- endmacro -%}
