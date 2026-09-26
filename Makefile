@@ -89,8 +89,7 @@ rector: ## Run Rector (dry-run)
 	@$(PHP) vendor/bin/rector --dry-run
 
 verify-prod-image: ## Build the prod stage; fails if Imagick's coder modules didn't make it in
-	@docker build --target frankenphp_prod_verify -t teeline-prod-verify . --quiet
-	@docker rmi teeline-prod-verify --force > /dev/null
+	@id=$$(docker build --target frankenphp_prod_verify --quiet .) && docker rmi $$id --force > /dev/null
 
 rector-fix: ## Run Rector and apply changes
 	@$(PHP) vendor/bin/rector
